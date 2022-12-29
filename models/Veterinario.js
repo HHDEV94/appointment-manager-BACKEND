@@ -2,40 +2,45 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import idGenerator from '../helpers/idGenerator.js'
 
-const veterianarioSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true
+const veterianarioSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    password: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true
+    },
+    telephone: {
+      type: String,
+      default: null,
+      trim: true
+    },
+    web: {
+      type: String,
+      default: null
+    },
+    token: {
+      type: String,
+      default: idGenerator()
+    },
+    confirmed: {
+      type: Boolean,
+      default: false
+    }
   },
-  password: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true
-  },
-  telephone: {
-    type: String,
-    default: null,
-    trim: true
-  },
-  web: {
-    type: String,
-    default: null
-  },
-  token: {
-    type: String,
-    default: idGenerator()
-  },
-  confirmed: {
-    type: Boolean,
-    default: false
+  {
+    timestamps: true
   }
-})
+)
 
 veterianarioSchema.pre('save', async function (next) {
   //Si el passwor ya esta hasheado no lo volverá a hashear
